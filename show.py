@@ -65,7 +65,7 @@ def show(portfolioName, inCurrency):
     try:
         portfolioList = os.listdir('Portfolios')
     except:
-        print("Not portfolios have been created, create one first before attempting to show one.")
+        print("No portfolios have been created, create one first before attempting to show one.")
         return
     priceDict = dict()
 
