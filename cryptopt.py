@@ -17,6 +17,9 @@ def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-argume
 
     return argsList
 
+def save(portfolioName, cryptoDict):
+    pass
+
 def show(portfolioName, inCurrency):
     pass
 
