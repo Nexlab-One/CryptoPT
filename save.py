@@ -1,5 +1,17 @@
+#####################################
+# Crypto Portfolio Tracker          #
+# Enoch Kuskoff -> ZeroSource.io    #
+# 11/04/2023                        #
+#####################################
+
+# Save Module
+
+    # Imports
 import os, os.path, json
 
+    # Methods
+
+# Parse Crypto argument into a readable dictionary
 def parseCryptoArgs(cryptoArgs):
     cryptoDict = dict()
     # Split different cryptocurrencies within an argument
@@ -24,7 +36,7 @@ def writeDictToJSONFile(directory, filename, dictionary):
     with open(f"{directory}/{filename}.json", "w+") as outfile:
         outfile.write(json.dumps(dictionary, indent = 4))
 
-
+# Save dictionary as a json file after parsing the arguments
 def save(portfolioName, cryptoArgs):
     cryptoDict = parseCryptoArgs(cryptoArgs)
     writeDictToJSONFile("Portfolios", portfolioName, cryptoDict)

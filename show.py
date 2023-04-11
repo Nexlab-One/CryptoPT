@@ -1,12 +1,20 @@
-# Show module
+#####################################
+# Crypto Portfolio Tracker          #
+# Enoch Kuskoff -> ZeroSource.io    #
+# 11/04/2023                        #
+#####################################
 
+# Show Module
+
+    # Imports
 import os, json
 from dotenv import load_dotenv
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
-
+    #Variables
 line = "════════════════════════════════════════════════════════════════════════════"
+
 with open("currencySymbolList.txt", "r") as currencyCode:
     currencyCodeList = currencyCode.read().split("\n") # Load Currency Codes into a list
 
@@ -14,10 +22,11 @@ with open("currencySymbolList.txt", "r") as currencyCode:
 load_dotenv()
 _COINMARKETCAP_APIKEY = os.getenv('_COINMARKETCAP_APIKEY')
 
-    # Requests
+    # Methods
+
+# API Request handling
 def reqCMC(Amount, Crypto, inCurrency): # https://coinmarketcap.com/api/documentation/v1/#operation/getV2ToolsPriceconversion
     session = Session() # Instantiate session object
-
     url = 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion'
     headers = {
         'Accepts': 'application/json',
@@ -42,6 +51,7 @@ def readJSONtoDict(directory, filename):
     with open(f"{directory}/{filename}.json", "rb") as data_file:
         return json.load(data_file)
 
+# Display any existing portfolios as a list or print a message
 def showPortfolioList(portfolioList):
     if len(portfolioList) == 0:
         print("There are zero portfolios stored/saved.")
@@ -50,9 +60,12 @@ def showPortfolioList(portfolioList):
         for portfolio in portfolioList:
             print(f'    -> {portfolio.split(".")[0]}')
 
+# 
 def show(portfolioName, inCurrency):
     portfolioList = os.listdir('Portfolios')
-    if (f"{portfolioName}.json") not in portfolioList:
+    priceDict = dict()
+
+    if (f"{portfolioName}.json") not in portfolioList: # Check if portfolio name exists on disk
         print("!!! Error: Portfolio Name/ID is invalid, please check your input.\nPortfolio info:")
         showPortfolioList(portfolioList) # Print Portfolio IDs stored
         return
@@ -64,7 +77,6 @@ def show(portfolioName, inCurrency):
         return
     currencyCode = inCurrency.upper()
 
-    priceDict = dict()
     # Read Portfolio
     portfolioDict = readJSONtoDict("Portfolios", portfolioName)
     for crypto in portfolioDict:
@@ -77,7 +89,8 @@ def show(portfolioName, inCurrency):
             print("Error Processing Request, see following error response for more information:\n",cmcResponse)
             return
     totalValuation = 0.00
-    for crypto in priceDict:
+    
+    for crypto in priceDict: # Sum the value of all holdings
         print(f"{crypto} ${priceDict[crypto]}")
         totalValuation += priceDict[crypto]
     print(f'\n$ {totalValuation} {currencyCode}')

@@ -1,6 +1,15 @@
+#####################################
+# Crypto Portfolio Tracker          #
+# Enoch Kuskoff -> ZeroSource.io    #
+# 11/04/2023                        #
+#####################################
+
+# Args Module
+
+    # Imports
 import sys
 
-# Variables
+    # Variables
 saveArg = """save [portfolio_name] [Crypto_Ticker]=[Amount_with_Decimal]
          ^ - The "save" argument creates or overwites an existing portfolio identified by the unique ID referenced by "portfolio_name" followed by the cryptocurrency ticker and the held amount.
             ! - Additional CryptoCurrencies can be added by putting a comma after the last Crypto ticker and amount like so:,[Crypto_Ticker]=[Amount_with_Decimal]
@@ -13,10 +22,13 @@ showArg = """show [portfolio_name] [Currency_to_Display_Holdings_in]
             ^ For example: show myportfolio1 AUD
                 ^ This shows a valuation of a portfolio with the name/id of "myportfolio1" and each crypto holding in the currency of "AUD"""
 
-# Methods
+    # Methods
+
+# Error message to display when arguments are invalid
 def argError():
     print(f"Error: Incomplete or invalid arguments\nUsage:\n{saveArg}\n\n{showArg}")
 
+# Basic argument check and parse
 def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-arguments-argv-example/
     # Return Message if too many arguments are passed
     if len(sys.argv) > 4: 
