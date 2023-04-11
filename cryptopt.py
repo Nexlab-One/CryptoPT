@@ -40,6 +40,9 @@ def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-argume
 def save(portfolioName, cryptoDict):
     pass
 
+def showPortfolioList():
+    pass
+
 def show(portfolioName, inCurrency):
     pass
 
