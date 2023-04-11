@@ -38,12 +38,19 @@ def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-argume
     return argsList
 
 def parseCryptoArgs(cryptoArgs):
-    # Split different cryptocurrencies in argument
-    cryptoHoldingList = cryptoArgs.split(",")
-    print(cryptoHoldingList)
-    for pair in cryptoHoldingList:
-        ticker, holding = pair.split("=")[0], pair.split("=")[1]
-        print(ticker, holding)
+    cryptoDict = dict()
+    # Split different cryptocurrencies within an argument
+    cryptoHoldingList = str(cryptoArgs).split(",")
+    for pair in cryptoHoldingList: # Parse pairs into the ticker and float amount, converting the ticker into uppercase and holding amount in to a float.
+        try:
+            ticker, holding = pair.split("=")[0].upper(), float(pair.split("=")[1])
+        except: # If the holding "amount" in the argument cannot be converted to a float then the following exception will occur:
+            print("!!! Error, invalid arguments supplied for crypto holdings.\nPlease Ensure the Ticker is alhpabetic and the holding amount is a number that contains a maximum of one decimal point.\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n", saveArg)
+            return
+        
+        cryptoDict[ticker] = holding # Add the argument pair to a dictionary
+
+    return cryptoDict
 
 
 # Write Dict as JSON in file
