@@ -5,7 +5,7 @@
 #####################################
 
 # Imports
-import os, sys, json
+import os, os.path, sys, json
 
 # Variables
 saveArg = """save [portfolio_name] [Crypto_Ticker]=[Amount_with_Decimal]
@@ -36,6 +36,13 @@ def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-argume
     argsList = str(sys.argv) # Get the arguments list 
 
     return argsList
+
+# Write Dict as JSON in file
+def writeDictToJSONFile(directory, filename, dictionary):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    with open(f"{directory}/{filename}.json", "w+") as outfile:
+        outfile.write(json.dumps(dictionary, indent = 4))
 
 def save(portfolioName, cryptoDict):
     pass
