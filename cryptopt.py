@@ -23,7 +23,7 @@ def argError():
 
 def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-arguments-argv-example/
     # Return Message if too many arguments are passed
-    if len(sys.argv) > 2: 
+    if len(sys.argv) > 4: 
         print("Too many arguments")
         return None
     elif len(sys.argv) < 2:
