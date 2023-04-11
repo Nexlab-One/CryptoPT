@@ -66,6 +66,7 @@ def show(portfolioName, inCurrency):
         portfolioList = os.listdir('Portfolios')
     except:
         print("Not portfolios have been created, create one first before attempting to show one.")
+        return
     priceDict = dict()
 
     if (f"{portfolioName}.json") not in portfolioList: # Check if portfolio name exists on disk
