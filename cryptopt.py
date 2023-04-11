@@ -17,11 +17,10 @@ def argError():
                 ^ This creates or overwrites a portfolio identified by the unique ID “myportfolio1”, comprised of 3.3458 Bitcoin (BTC) and 23.89347 Ethereum (ETH).
 
         show [portfolio_name] [Currency_to_Display_Holdings_in]
-         ^ - The "show" argument by itself displayes a list of saved portfolios, when addition arguments are supplied, 
-             such as the portfolio name along with the currency to display the holdings in,
-             the approximate valuatioon of the portfolio is displayed.
+         ^ - The "show" argument along with the currency to display the holdings in, displays the cryptocurrencies in a portfolios holdings and their approximate value in the requested currency,
+             along with the approximate valuatioon of the whole portfolio.
             ^ For example: show myportfolio1 AUD
-                ^ This shows a portfolio valuation with the name/id of "myportfolio1" in the currency of "AUD"
+                ^ This shows a valuation of a portfolio with the name/id of "myportfolio1" and each crypto holding in the currency of "AUD"
         """)
 
 def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-arguments-argv-example/
