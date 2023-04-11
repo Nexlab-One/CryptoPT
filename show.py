@@ -15,7 +15,7 @@ from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
     #Variables
 line = "════════════════════════════════════════════════════════════════════════════"
 
-with open("currencySymbolList.txt", "r") as currencyCode:
+with open("./currencySymbolList.txt", "r") as currencyCode:
     currencyCodeList = currencyCode.read().split("\n") # Load Currency Codes into a list
 
 # Load environment variables
@@ -62,7 +62,10 @@ def showPortfolioList(portfolioList):
 
 # Check portfolio exists, validate currency argument, call api functioon, calculate portfolio holdings
 def show(portfolioName, inCurrency):
-    portfolioList = os.listdir('Portfolios')
+    try:
+        portfolioList = os.listdir('Portfolios')
+    except:
+        print("Not portfolios have been created, create one first before attempting to show one.")
     priceDict = dict()
 
     if (f"{portfolioName}.json") not in portfolioList: # Check if portfolio name exists on disk
