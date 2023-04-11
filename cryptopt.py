@@ -78,10 +78,12 @@ def showPortfolioList(portfolioList):
 
 def show(portfolioName, inCurrency):
     portfolioList = os.listdir('Portfolios')
-    if portfolioName not in portfolioList:
+    if (f"{portfolioName}.json") not in portfolioList:
         print("!!! Error: Portfolio Name/ID is invalid, please check your input.\nPortfolio info:")
         showPortfolioList(portfolioList) # Print Portfolio IDs stored
-    pass
+    else:
+        print(f"Displaying Portfolio: {portfolioName}")
+        print("════════════════════════════════════════════════════\n")
 
 # Main Instance of Program
 if __name__=="__main__":
