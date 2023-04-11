@@ -6,6 +6,11 @@
 
 # Imports
 import os, os.path, sys, json
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+_COINMARKETCAP_APIKEY = os.getenv('_COINMARKETCAP_APIKEY')
 
 # Variables
 saveArg = """save [portfolio_name] [Crypto_Ticker]=[Amount_with_Decimal]
