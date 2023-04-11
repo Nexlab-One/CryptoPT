@@ -7,6 +7,8 @@
 # Imports
 import os, os.path, sys, json
 from dotenv import load_dotenv
+from requests import Request, Session
+from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
 # Load environment variables
 load_dotenv()
