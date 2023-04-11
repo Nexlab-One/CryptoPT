@@ -17,7 +17,8 @@ def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-argume
 
     return argsList
 
-
+def show(portfolioName, inCurrency):
+    pass
 
 # Main Instance of Program
 if __name__=="__main__":
