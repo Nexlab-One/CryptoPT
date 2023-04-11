@@ -37,6 +37,11 @@ def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-argume
 
     return argsList
 
+def parseCryptoArgs(cryptoArgs):
+    # Split different cryptocurrencies in argument
+    cryptoHoldingList = cryptoArgs.split(",")
+    print(cryptoHoldingList)
+
 # Write Dict as JSON in file
 def writeDictToJSONFile(directory, filename, dictionary):
     if not os.path.exists(directory):
@@ -44,8 +49,10 @@ def writeDictToJSONFile(directory, filename, dictionary):
     with open(f"{directory}/{filename}.json", "w+") as outfile:
         outfile.write(json.dumps(dictionary, indent = 4))
 
-def save(portfolioName, cryptoDict):
-    pass
+def save(portfolioName, cryptoArgs):
+    cryptoDict = parseCryptoArgs(cryptoArgs)
+    #writeDictToJSONFile("Portfolios", portfolioName, cryptoDict)
+    return
 
 def showPortfolioList():
     pass
@@ -57,7 +64,11 @@ def show(portfolioName, inCurrency):
 if __name__=="__main__":
     argument = checkArguments()
     if argument is not None:
-        print(argument)
+        match sys.argv[1]: # Match first argument to relevant method and call it.
+            case "save":
+                save(sys.argv[2], sys.argv[3]) # Pass following arguments to save method.
+            case "show":
+                show(sys.argv[2], sys.argv[3]) # Pass following arguments to save method.
     else:
         exit()
     
