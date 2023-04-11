@@ -5,7 +5,7 @@
 #####################################
 
 # Imports
-import sys
+import sys, json
 
 # Variables
 saveArg = """save [portfolio_name] [Crypto_Ticker]=[Amount_with_Decimal]
