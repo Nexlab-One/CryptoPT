@@ -41,6 +41,10 @@ def parseCryptoArgs(cryptoArgs):
     # Split different cryptocurrencies in argument
     cryptoHoldingList = cryptoArgs.split(",")
     print(cryptoHoldingList)
+    for pair in cryptoHoldingList:
+        ticker, holding = pair.split("=")[0], pair.split("=")[1]
+        print(ticker, holding)
+
 
 # Write Dict as JSON in file
 def writeDictToJSONFile(directory, filename, dictionary):
@@ -71,4 +75,3 @@ if __name__=="__main__":
                 show(sys.argv[2], sys.argv[3]) # Pass following arguments to save method.
     else:
         exit()
-    
