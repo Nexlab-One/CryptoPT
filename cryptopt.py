@@ -29,7 +29,7 @@ def checkArguments(): # https://www.cyberciti.biz/faq/python-command-line-argume
     if len(sys.argv) > 4: 
         print("Too many arguments")
         return None
-    elif len(sys.argv) < 2:
+    elif len(sys.argv) < 4:
         argError()
         return None
 
@@ -68,15 +68,24 @@ def save(portfolioName, cryptoArgs):
     print(f'Created a portfolio with the name of "{portfolioName}"" that has the following holdings: {cryptoDict}')
     return
 
-def showPortfolioList():
-    pass
+def showPortfolioList(portfolioList):
+    if len(portfolioList) == 0:
+        print("There are zero portfolios stored/saved.")
+    else:
+        for portfolio in portfolioList:
+            print(f"The amount of portfolios stored: {len(portfolioList)}")
+            print(f'    - {portfolio.split(".")[0]}')
 
 def show(portfolioName, inCurrency):
+    portfolioList = os.listdir('Portfolios')
+    if portfolioName not in portfolioList:
+        print("!!! Error: Portfolio Name/ID is invalid, please check your input.\nPortfolio info:")
+        showPortfolioList(portfolioList) # Print Portfolio IDs stored
     pass
 
 # Main Instance of Program
 if __name__=="__main__":
-    argument = checkArguments()
+    argument = checkArguments() # Check to ensure that valid and correct amount of arguments were supplied.
     if argument is not None:
         match sys.argv[1]: # Match first argument to relevant method and call it.
             case "save":
