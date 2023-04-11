@@ -20,7 +20,9 @@ showArg = """show [portfolio_name] [Currency_to_Display_Holdings_in]
          ^ - The "show" argument along with the currency to display the holdings in, displays the cryptocurrencies in a portfolios holdings and their approximate value in the requested currency,
              along with the approximate valuatioon of the whole portfolio.
             ^ For example: show myportfolio1 AUD
-                ^ This shows a valuation of a portfolio with the name/id of "myportfolio1" and each crypto holding in the currency of "AUD"""
+                ^ This shows a valuation of a portfolio with the name/id of "myportfolio1" and each crypto holding in the currency of "AUD
+                
+        ^ - An API Key for showing the value of a portfolio using CoinMarketCaps' API is required. Add it to the .env file if running locally, or in the dockerfile before composing."""
 
     # Methods
 
