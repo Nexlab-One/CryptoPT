@@ -60,7 +60,7 @@ def showPortfolioList(portfolioList):
         for portfolio in portfolioList:
             print(f'    -> {portfolio.split(".")[0]}')
 
-# 
+# Check portfolio exists, validate currency argument, call api functioon, calculate portfolio holdings
 def show(portfolioName, inCurrency):
     portfolioList = os.listdir('Portfolios')
     priceDict = dict()
