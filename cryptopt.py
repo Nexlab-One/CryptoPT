@@ -64,7 +64,8 @@ def writeDictToJSONFile(directory, filename, dictionary):
 
 def save(portfolioName, cryptoArgs):
     cryptoDict = parseCryptoArgs(cryptoArgs)
-    #writeDictToJSONFile("Portfolios", portfolioName, cryptoDict)
+    writeDictToJSONFile("Portfolios", portfolioName, cryptoDict)
+    print(f'Created a portfolio with the name of "{portfolioName}"" that has the following holdings: {cryptoDict}')
     return
 
 def showPortfolioList():
