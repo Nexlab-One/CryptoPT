@@ -27,7 +27,30 @@ showArg = """show [portfolio_name] [Currency_to_Display_Holdings_in]
             ^ For example: show myportfolio1 AUD
                 ^ This shows a valuation of a portfolio with the name/id of "myportfolio1" and each crypto holding in the currency of "AUD"""
 
-# Functions
+
+# Methods
+
+    # Requests
+def reqCMC(Amount, Crypto, inCurrency): # https://coinmarketcap.com/api/documentation/v1/#operation/getV2ToolsPriceconversion
+    url = 'https://pro-api.coinmarketcap.com/v2/tools/price-conversion'
+    headers = {
+        'Accepts': 'application/json',
+        'X-CMC_PRO_API_KEY': _COINMARKETCAP_APIKEY,
+    }
+    session.headers.update(headers)
+    body = {
+        'amount': Amount,
+        'symbol': Crypto,
+        'convert': inCurrency
+    }
+    
+    try:
+        response = session.get(url, params=body)
+        data = json.loads(response.text)
+        return True, data
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
+        return False, e
+
 def argError():
     print(f"Error: Incomplete or invalid arguments\nUsage:\n{saveArg}\n\n{showArg}")
 
@@ -69,6 +92,11 @@ def writeDictToJSONFile(directory, filename, dictionary):
     with open(f"{directory}/{filename}.json", "w+") as outfile:
         outfile.write(json.dumps(dictionary, indent = 4))
 
+# Read file and Return JSON as Dict
+def readJSONtoDict(directory, filename):
+    with open(f"{directory}/{filename}.json", "rb") as data_file:
+        return json.load(data_file)
+
 def save(portfolioName, cryptoArgs):
     cryptoDict = parseCryptoArgs(cryptoArgs)
     writeDictToJSONFile("Portfolios", portfolioName, cryptoDict)
@@ -88,13 +116,40 @@ def show(portfolioName, inCurrency):
     if (f"{portfolioName}.json") not in portfolioList:
         print("!!! Error: Portfolio Name/ID is invalid, please check your input.\nPortfolio info:")
         showPortfolioList(portfolioList) # Print Portfolio IDs stored
+        return
     else:
-        print(f"Displaying Portfolio: {portfolioName}")
-        print("════════════════════════════════════════════════════\n")
+        print(f"Displaying Portfolio: {portfolioName} in the Currencey of: {inCurrency}")
+        print("════════════════════════════════════════════════════════════════════════════")
+    
+    if inCurrency.upper() not in currencyCodeList:
+        print(f'!!! Error: {inCurrency}/{inCurrency.upper()} is not a valid currency Code, check it is spelled correctly and exists.')
+        return
+    currencyCode = inCurrency.upper()
+
+    priceDict = dict()
+    # Read Portfolio
+    portfolioDict = readJSONtoDict("Portfolios", portfolioName)
+    for crypto in portfolioDict:
+        cryptoTicker = crypto
+        amount = portfolioDict[crypto]
+        cmcResponse = reqCMC(amount, cryptoTicker, currencyCode) # Fetch Data from API
+        priceDict[crypto] = cmcResponse[1]['data'][0]['quote'][currencyCode]['price'] # Extract price from Data
+
+    totalValuation = 0.00
+    for crypto in priceDict:
+        print(f"{crypto} ${priceDict[crypto]}")
+        totalValuation += priceDict[crypto]
+    print(f'$ {totalValuation} {currencyCode}')
+    return
 
 # Main Instance of Program
 if __name__=="__main__":
+    session = Session() # Instantiate session object
     argument = checkArguments() # Check to ensure that valid and correct amount of arguments were supplied.
+
+    with open("currencySymbolList.txt", "r") as currencyCode:
+        currencyCodeList = currencyCode.read().split("\n") # Load Currency Codes into a list
+    
     if argument is not None:
         match sys.argv[1]: # Match first argument to relevant method and call it.
             case "save":
