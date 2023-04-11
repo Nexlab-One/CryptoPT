@@ -27,7 +27,7 @@ showArg = """show [portfolio_name] [Currency_to_Display_Holdings_in]
             ^ For example: show myportfolio1 AUD
                 ^ This shows a valuation of a portfolio with the name/id of "myportfolio1" and each crypto holding in the currency of "AUD"""
 
-
+line = "════════════════════════════════════════════════════════════════════════════"
 # Methods
 
     # Requests
@@ -84,7 +84,6 @@ def parseCryptoArgs(cryptoArgs):
 
     return cryptoDict
 
-
 # Write Dict as JSON in file
 def writeDictToJSONFile(directory, filename, dictionary):
     if not os.path.exists(directory):
@@ -107,9 +106,9 @@ def showPortfolioList(portfolioList):
     if len(portfolioList) == 0:
         print("There are zero portfolios stored/saved.")
     else:
+        print(f"The amount of portfolios stored: {len(portfolioList)}")
         for portfolio in portfolioList:
-            print(f"The amount of portfolios stored: {len(portfolioList)}")
-            print(f'    - {portfolio.split(".")[0]}')
+            print(f'    -> {portfolio.split(".")[0]}')
 
 def show(portfolioName, inCurrency):
     portfolioList = os.listdir('Portfolios')
@@ -118,8 +117,7 @@ def show(portfolioName, inCurrency):
         showPortfolioList(portfolioList) # Print Portfolio IDs stored
         return
     else:
-        print(f"Displaying Portfolio: {portfolioName} in the Currencey of: {inCurrency}")
-        print("════════════════════════════════════════════════════════════════════════════")
+        print(f"\n{line}\nDisplaying Portfolio: {portfolioName} in the Currencey of: {inCurrency}\n{line}")
     
     if inCurrency.upper() not in currencyCodeList:
         print(f'!!! Error: {inCurrency}/{inCurrency.upper()} is not a valid currency Code, check it is spelled correctly and exists.')
@@ -132,14 +130,17 @@ def show(portfolioName, inCurrency):
     for crypto in portfolioDict:
         cryptoTicker = crypto
         amount = portfolioDict[crypto]
-        cmcResponse = reqCMC(amount, cryptoTicker, currencyCode) # Fetch Data from API
-        priceDict[crypto] = cmcResponse[1]['data'][0]['quote'][currencyCode]['price'] # Extract price from Data
-
+        success, cmcResponse = reqCMC(amount, cryptoTicker, currencyCode) # Fetch Data from API
+        if success:
+            priceDict[crypto] = cmcResponse['data'][0]['quote'][currencyCode]['price'] # Extract price from Data
+        else:
+            print("Error Processing Request, see following error response for more information:\n",cmcResponse)
+            return
     totalValuation = 0.00
     for crypto in priceDict:
         print(f"{crypto} ${priceDict[crypto]}")
         totalValuation += priceDict[crypto]
-    print(f'$ {totalValuation} {currencyCode}')
+    print(f'\n$ {totalValuation} {currencyCode}')
     return
 
 # Main Instance of Program
