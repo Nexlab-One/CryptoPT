@@ -45,7 +45,9 @@ def parseCryptoArgs(cryptoArgs):
         try:
             ticker, holding = pair.split("=")[0].upper(), float(pair.split("=")[1])
         except: # If the holding "amount" in the argument cannot be converted to a float then the following exception will occur:
-            print("!!! Error, invalid arguments supplied for crypto holdings.\nPlease Ensure the Ticker is alhpabetic and the holding amount is a number that contains a maximum of one decimal point.\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n", saveArg)
+            print(f'''!!! Error, invalid arguments supplied for crypto holdings in the following pair: {pair}
+            Please Ensure the Ticker is alhpabetic and the holding amount is a number that contains a maximum of one decimal point.
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\nHow to use "save":\n''', saveArg)
             return
         
         cryptoDict[ticker] = holding # Add the argument pair to a dictionary
